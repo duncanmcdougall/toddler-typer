@@ -1,4 +1,4 @@
-const text = `Once upon a time there were four little Rabbits, and their names were—
+const words = `Once upon a time there were four little Rabbits, and their names were—
 
 Flopsy,
 Mopsy,
@@ -72,21 +72,25 @@ His mother put him to bed, and made some camomile tea; and she gave a dose of it
 
 But Flopsy, Mopsy, and Cotton-tail had bread and milk and blackberries for supper.
 
-`;
-
-const words = text.match(/\b(\w+\W+)/g);
+`.match(/\b(\w+\W+)/g);
 
 const content = document.getElementById("content");
 
-let i = 0;
+// Remove Header when the typing starts
+const removeInstruction = () => {
+  document.querySelector("h1").remove();
+  document.removeEventListener("keydown", removeInstruction);
+};
 
+document.addEventListener("keydown", removeInstruction);
+
+let i = 0;
 document.addEventListener("keyup", () => {
   content.innerHTML += words[i].replace(/\n/g, "<br />");
-  i++;
-
-  if (i >= words.length) {
+  if (i++ >= words.length - 1) {
     i = 0;
   }
 
+  // keep the page scrolled to the bottom
   window.scrollTo(0, document.body.scrollHeight);
 });
